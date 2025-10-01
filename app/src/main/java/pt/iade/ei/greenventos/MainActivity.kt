@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import pt.iade.ei.greenventos.ui.components.EventListItem
 import pt.iade.ei.greenventos.ui.theme.GreenventosTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,27 +29,17 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun EventListItem() {
-    Row {
-        Column {
-            Text("Event Title")
-            Text("24/09 - 11:00 - Sala 122")
-        }
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("404")
-            Text("RSVP")
-        }
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
     GreenventosTheme {
-        EventListItem()
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text("Greenventos")
+            for (i in 1..5) {
+                EventListItem()
+            }
+        }
     }
 }
