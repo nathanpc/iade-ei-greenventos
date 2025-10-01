@@ -1,5 +1,6 @@
 package pt.iade.ei.greenventos.ui.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,10 +21,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.greenventos.R
+import java.util.Calendar
 
 
 @Composable
-fun EventListItem() {
+fun EventListItem(
+    title: String,
+    date: Calendar,
+    room: String,
+    rsvp: Int,
+    @DrawableRes posterId: Int
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -35,8 +43,8 @@ fun EventListItem() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(R.drawable.green_campus),
-                contentDescription = "Fachada do Green Campus",
+                painter = painterResource(posterId),
+                contentDescription = title,
                 modifier = Modifier
                     .height(70.dp)
                     .padding(end = 10.dp)
@@ -44,13 +52,15 @@ fun EventListItem() {
 
             Column {
                 Text(
-                    text = "Event Title",
+                    text = title,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
 
                 Text(
-                    text = "24/09 - 11:00 - Sala 122",
+                    text = "${date.get(Calendar.DAY_OF_MONTH)}/${date.get(Calendar.MONTH)} - " +
+                            "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)} " +
+                            " - $room",
                     color = Color.DarkGray,
                     fontSize = 15.sp
                 )
@@ -61,7 +71,7 @@ fun EventListItem() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "404",
+                text = rsvp.toString(),
                 fontSize = 15.sp
             )
             Text(
@@ -75,5 +85,12 @@ fun EventListItem() {
 @Composable
 @Preview(showBackground = true)
 fun EventListItemPreview() {
-    EventListItem()
+    EventListItem(
+        title = "Tech Club",
+        date = Calendar.getInstance(),
+        room = "Tech Lab",
+        rsvp = 8,
+        posterId = R.drawable.green_campus
+    )
 }
+

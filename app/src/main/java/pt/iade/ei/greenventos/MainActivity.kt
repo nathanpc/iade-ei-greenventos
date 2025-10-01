@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.iade.ei.greenventos.ui.components.EventListItem
 import pt.iade.ei.greenventos.ui.theme.GreenventosTheme
+import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +39,13 @@ fun HomePreview() {
         ) {
             Text("Greenventos")
             for (i in 1..5) {
-                EventListItem()
+                EventListItem(
+                    title = "Tech Club $i",
+                    date = Calendar.getInstance(),
+                    room = "Tech Lab",
+                    rsvp = 8 + i,
+                    posterId = R.drawable.green_campus
+                )
             }
         }
     }
