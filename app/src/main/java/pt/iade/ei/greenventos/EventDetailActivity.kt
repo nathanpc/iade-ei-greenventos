@@ -16,6 +16,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -140,7 +141,12 @@ fun DetailView() {
             }
 
             // Description area.
-            Text(item.description)
+            Card (
+                modifier = Modifier.padding(horizontal = 10.dp),
+                onClick = {}
+            ) {
+                Text(item.description, modifier = Modifier.padding(15.dp))
+            }
         }
     }
 }
