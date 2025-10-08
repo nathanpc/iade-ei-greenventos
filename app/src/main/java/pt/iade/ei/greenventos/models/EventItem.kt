@@ -8,7 +8,8 @@ data class EventItem(
     var date: Calendar,
     var room: String,
     var durationMinutes: Int,
-    var rsvp: Int
+    var rsvp: Int,
+    var description: String = ""
 )
 
 fun hoursToMinutes(hours: Int): Int {

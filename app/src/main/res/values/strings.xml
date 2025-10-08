@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Greenventos</string>
+    <string name="app_name" translatable="false">Greenventos</string>
+    <string name="title_activity_event_detail">Event Detail</string>
+
+    <string name="back">Back</string>
+    <string name="add_calendar">Add to Calendar</string>
 </resources>
