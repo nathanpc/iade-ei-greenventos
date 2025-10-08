@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.greenventos.R
+import pt.iade.ei.greenventos.models.EventItem
 import java.util.Calendar
 
 
@@ -80,6 +81,17 @@ fun EventListItem(
             )
         }
     }
+}
+
+@Composable
+fun EventListItem(item: EventItem) {
+    EventListItem(
+        title = item.title,
+        date = item.date,
+        room = item.room,
+        rsvp = item.rsvp,
+        posterId = R.drawable.ic_launcher_background
+    )
 }
 
 @Composable

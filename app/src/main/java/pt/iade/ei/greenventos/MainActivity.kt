@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import pt.iade.ei.greenventos.models.EventItem
+import pt.iade.ei.greenventos.models.hoursToMinutes
 import pt.iade.ei.greenventos.ui.components.EventListItem
 import pt.iade.ei.greenventos.ui.theme.GreenventosTheme
 import java.util.Calendar
@@ -51,10 +53,23 @@ fun MainView() {
             )
         }
     ) { innerPadding ->
+        val item = EventItem(
+            id = 123,
+            title = "Tech Club",
+            date = Calendar.getInstance(),
+            room = "Tech Lab",
+            durationMinutes = hoursToMinutes(4),
+            rsvp = 8
+        )
+
         Column(
             modifier = Modifier
                 .padding(innerPadding)
         ) {
+            EventListItem(item)
+            item.title = "outro evento"
+            EventListItem(item)
+
             for (i in 1..5) {
                 EventListItem(
                     title = "Tech Club $i",
