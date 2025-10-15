@@ -1,6 +1,7 @@
 package pt.iade.ei.greenventos
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.httpGet
+import kotlinx.coroutines.runBlocking
 import pt.iade.ei.greenventos.models.EventItem
 import pt.iade.ei.greenventos.models.hoursToMinutes
 import pt.iade.ei.greenventos.ui.components.EventListItem
@@ -31,6 +35,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GreenventosTheme {
+                "http://10.0.2.2:5000/events".httpGet().response {
+                        request, response, result ->
+                    //response handling
+                    Log.i("OTHER", response.body().toString())
+                }
+
                 MainView()
             }
         }
