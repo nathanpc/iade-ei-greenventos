@@ -32,6 +32,7 @@ import pt.iade.ei.greenventos.models.hoursToMinutes
 import pt.iade.ei.greenventos.ui.components.EventListItem
 import pt.iade.ei.greenventos.ui.theme.GreenventosTheme
 import java.util.Calendar
+import kotlin.Int
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,13 +54,19 @@ class MainActivity : ComponentActivity() {
                     val arr: JsonArray = obj.get("events") as JsonArray
 
                     // Get a single event.
-                    val event1: JsonObject = arr.get(1) as JsonObject
+                    val event: JsonObject = arr.get(1) as JsonObject
 
-                    // Get data from event object.
-                    val eventName = event1.get("description").asString
-                    val minutes = event1.get("durationMinutes").asString
+                    val eventItem: EventItem = EventItem(
+                        id = event.get("id").asInt,
+                        title = event.get("title").asString,
+                        date = Calendar.getInstance(),
+                        room = event.get("room").asString,
+                        durationMinutes = event.get("durationMinutes").asInt,
+                        rsvp = event.get("rsvp").asInt,
+                        description = event.get("description").asString
+                    )
 
-                    Log.i("TEST", event1.toString())
+                    Log.i("TEST", eventItem.toString())
                 }
 
                 MainView()
