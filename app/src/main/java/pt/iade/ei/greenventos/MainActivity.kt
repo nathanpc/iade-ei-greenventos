@@ -16,6 +16,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,9 +45,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GreenventosTheme {
+                val eventList = remember { mutableStateListOf<EventItem>() }
+
                 "http://10.0.2.2:5000/events".httpGet().response {
                         request, response, result ->
-                    // Get JSON string from reponse body.
+                    // Get JSON string from response body.
                     val json = String(response.data)
                     Log.i("OTHER", json)
 
@@ -53,23 +60,22 @@ class MainActivity : ComponentActivity() {
                     // Get array of events.
                     val arr: JsonArray = obj.get("events") as JsonArray
 
-                    // Get a single event.
-                    val event: JsonObject = arr.get(1) as JsonObject
-
-                    val eventItem: EventItem = EventItem(
-                        id = event.get("id").asInt,
-                        title = event.get("title").asString,
-                        date = Calendar.getInstance(),
-                        room = event.get("room").asString,
-                        durationMinutes = event.get("durationMinutes").asInt,
-                        rsvp = event.get("rsvp").asInt,
-                        description = event.get("description").asString
-                    )
-
-                    Log.i("TEST", eventItem.toString())
+                    // Get list of events from JSON array.
+                    for (eventElement in arr) {
+                        val event: JsonObject = eventElement as JsonObject
+                        eventList.add(EventItem(
+                            id = event.get("id").asInt,
+                            title = event.get("title").asString,
+                            date = Calendar.getInstance(),
+                            room = event.get("room").asString,
+                            durationMinutes = event.get("durationMinutes").asInt,
+                            rsvp = event.get("rsvp").asInt,
+                            description = event.get("description").asString
+                        ))
+                    }
                 }
 
-                MainView()
+                MainView(eventList)
             }
         }
     }
@@ -77,7 +83,9 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainView() {
+fun MainView(
+    eventsList: List<EventItem>
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -91,31 +99,12 @@ fun MainView() {
             )
         }
     ) { innerPadding ->
-        val item = EventItem(
-            id = 123,
-            title = "Tech Club",
-            date = Calendar.getInstance(),
-            room = "Tech Lab",
-            durationMinutes = hoursToMinutes(4),
-            rsvp = 8
-        )
-
         Column(
             modifier = Modifier
                 .padding(innerPadding)
         ) {
-            EventListItem(item)
-            item.title = "outro evento"
-            EventListItem(item)
-
-            for (i in 1..5) {
-                EventListItem(
-                    title = "Tech Club $i",
-                    date = Calendar.getInstance(),
-                    room = "Tech Lab",
-                    rsvp = 8 + i,
-                    posterId = R.drawable.green_campus
-                )
+            for (event in eventsList) {
+                EventListItem(event)
             }
         }
     }
@@ -125,6 +114,33 @@ fun MainView() {
 @Composable
 fun HomePreview() {
     GreenventosTheme {
-        MainView()
+        MainView(
+            eventsList = listOf(
+                EventItem(
+                    id = 123,
+                    title = "Tech Club",
+                    date = Calendar.getInstance(),
+                    room = "Tech Lab",
+                    durationMinutes = hoursToMinutes(4),
+                    rsvp = 8
+                ),
+                EventItem(
+                    id = 123,
+                    title = "Tech Club 2",
+                    date = Calendar.getInstance(),
+                    room = "Tech Lab",
+                    durationMinutes = hoursToMinutes(4),
+                    rsvp = 8
+                ),
+                EventItem(
+                    id = 123,
+                    title = "Tech Club 3",
+                    date = Calendar.getInstance(),
+                    room = "Tech Lab",
+                    durationMinutes = hoursToMinutes(4),
+                    rsvp = 8
+                )
+            )
+        )
     }
 }

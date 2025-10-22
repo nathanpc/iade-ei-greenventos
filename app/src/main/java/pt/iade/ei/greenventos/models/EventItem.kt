@@ -3,12 +3,12 @@ package pt.iade.ei.greenventos.models
 import java.util.Calendar
 
 data class EventItem(
-    var id: Int,
-    var title: String,
-    var date: Calendar,
-    var room: String,
-    var durationMinutes: Int,
-    var rsvp: Int,
+    var id: Int = -1,
+    var title: String = "",
+    var date: Calendar = Calendar.getInstance(),
+    var room: String = "",
+    var durationMinutes: Int = 0,
+    var rsvp: Int = 0,
     var description: String = ""
 )
 
