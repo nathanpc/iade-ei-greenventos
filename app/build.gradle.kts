@@ -51,6 +51,9 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     implementation(libs.fuel)
+    implementation(libs.fuel.android)
+    implementation(libs.fuel.gson)
+    implementation(libs.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

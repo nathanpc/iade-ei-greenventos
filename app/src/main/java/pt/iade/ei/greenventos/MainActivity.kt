@@ -22,6 +22,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.httpGet
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import kotlinx.coroutines.runBlocking
 import pt.iade.ei.greenventos.models.EventItem
 import pt.iade.ei.greenventos.models.hoursToMinutes
@@ -37,8 +41,25 @@ class MainActivity : ComponentActivity() {
             GreenventosTheme {
                 "http://10.0.2.2:5000/events".httpGet().response {
                         request, response, result ->
-                    //response handling
-                    Log.i("OTHER", response.body().toString())
+                    // Get JSON string from reponse body.
+                    val json = String(response.data)
+                    Log.i("OTHER", json)
+
+                    // Setup JSON parser from Google and parse the JSON string.
+                    val builder = GsonBuilder().create()
+                    val obj: JsonObject = builder.fromJson(json, JsonObject().javaClass)
+
+                    // Get array of events.
+                    val arr: JsonArray = obj.get("events") as JsonArray
+
+                    // Get a single event.
+                    val event1: JsonObject = arr.get(1) as JsonObject
+
+                    // Get data from event object.
+                    val eventName = event1.get("description").asString
+                    val minutes = event1.get("durationMinutes").asString
+
+                    Log.i("TEST", event1.toString())
                 }
 
                 MainView()
